@@ -1,4 +1,4 @@
-# IWY Web User Interface
+# IWY Web UI
 
 ```
 npm run dev
