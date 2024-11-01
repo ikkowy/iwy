@@ -11,6 +11,21 @@ const navigationEntries = [
     title: 'Locations',
     icon: 'mdi-map-marker',
     href: '/general/locations'
+  },
+  {
+    title: 'Customers',
+    icon: 'mdi-briefcase-account',
+    href: '/general/customers'
+  },
+  {
+    title: 'Suppliers',
+    icon: 'mdi-truck',
+    href: '/general/suppliers'
+  },
+  {
+    title: 'Articles',
+    icon: 'mdi-tag-multiple',
+    href: '/general/articles'
   }
 ];
 

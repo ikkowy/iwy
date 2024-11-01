@@ -23,7 +23,7 @@ const navigationEntries = [
   },
   {
     title: 'Settings',
-    icon: 'mdi-cog-outline',
+    icon: 'mdi-cog',
     href: '/settings'
   }
 ];
