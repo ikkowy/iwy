@@ -1,10 +1,16 @@
 <template>
   <v-breadcrumbs density="compact" :items="props.breadcrumbs">
-    <template v-slot:prepend>
-      <v-btn icon="mdi-home" href="/" density="compact" variant="flat" class="mr-1" />
+    <template #prepend>
+      <v-btn
+        class="mr-1"
+        density="compact"
+        href="/"
+        icon="mdi-home"
+        variant="flat"
+      />
       <v-icon icon="mdi-chevron-right" />
     </template>
-    <template v-slot:divider>
+    <template #divider>
       <v-icon icon="mdi-chevron-right" />
     </template>
   </v-breadcrumbs>

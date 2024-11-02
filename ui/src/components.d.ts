@@ -10,6 +10,7 @@ declare module 'vue' {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     IwyBreadcrumbs: typeof import('./components/IwyBreadcrumbs.vue')['default']
     IwyNavigation: typeof import('./components/IwyNavigation.vue')['default']
+    LocationEditDialog: typeof import('./components/general/LocationEditDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

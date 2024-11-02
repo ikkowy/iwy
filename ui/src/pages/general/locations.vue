@@ -3,7 +3,7 @@
     <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
 
     <div class="pa-1 d-flex flex-wrap ga-2">
-      <v-btn class="text-none" prepend-icon="mdi-plus" variant="flat">
+      <v-btn class="text-none" prepend-icon="mdi-plus" variant="flat" @click="showLocationEditDialog = true">
         Add
         <v-tooltip activator="parent" location="bottom">
           Add new location
@@ -45,6 +45,9 @@
       <v-data-table hover :items="entries" />
     </div>
   </div>
+
+  <LocationEditDialog v-model:show="showLocationEditDialog" />
+
 </template>
 
 <script setup lang="ts">
@@ -75,4 +78,6 @@ const breadcrumbs = [
     href: '/general/locations'
   }
 ];
+
+const showLocationEditDialog = ref(false);
 </script>

@@ -15,8 +15,13 @@ module.exports = {
     './.eslintrc-auto-import.json'
   ],
   rules: {
+    'semi': ['error', 'always'],
+    'comma-dangle': ['error', 'never'],
+    'no-multiple-empty-lines': ['error', { 'max': 2 }],
+    'quote-props': 'off',
     'vue/multi-word-component-names': 'off',
-    semi: ['error', 'always'],
-    'comma-dangle': ['error', 'never']
+    'vue/script-indent': ['error', 2, {
+      'baseIndent': 0
+    }]
   }
 };
