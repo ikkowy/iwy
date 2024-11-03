@@ -47,7 +47,6 @@
   </div>
 
   <LocationEditDialog v-model:show="showLocationEditDialog" />
-
 </template>
 
 <script setup lang="ts">

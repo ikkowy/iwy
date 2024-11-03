@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { UnwrapNestedRefs } from 'vue';
+import { createLocation } from '@/utils/api/LocationApiUtils';
 
 const show = defineModel<boolean>('show');
 
@@ -39,6 +40,7 @@ function reset () {
 }
 
 function save () {
+  createLocation(form.name, form.description);
   showNotification.value = true;
   close();
 }
