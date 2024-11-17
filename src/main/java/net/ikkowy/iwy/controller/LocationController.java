@@ -18,7 +18,9 @@ public class LocationController {
     }
 
     @GetMapping
-    List<LocationDTO> getLocations(@RequestParam(required = false) UUID uuid) {
+    List<LocationDTO> getLocations(@RequestParam(required = false) UUID uuid,
+                                   @RequestParam(required = false) String sortBy,
+                                   @RequestParam(required = false) Boolean descending) {
         return locationService.getLocations(uuid);
     }
 

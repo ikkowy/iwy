@@ -42,7 +42,7 @@
     </div>
 
     <div class="pa-2">
-      <v-data-table hover :items="entries" />
+      <v-data-table hover :items="entries" :loading="loading" @update:options="fetchTableData" />
     </div>
   </div>
 
@@ -50,20 +50,8 @@
 </template>
 
 <script setup lang="ts">
-const entries = [
-  {
-    location: 'Berlin'
-  },
-  {
-    location: 'Dresden'
-  },
-  {
-    location: 'Leipzig'
-  },
-  {
-    location: 'Stuttgart'
-  }
-];
+import { getLocations } from '@/utils/api/LocationApiUtils';
+import { LocationDTO } from '@/dto/LocationDTO';
 
 const breadcrumbs = [
   {
@@ -79,4 +67,25 @@ const breadcrumbs = [
 ];
 
 const showLocationEditDialog = ref(false);
+
+const loading = ref(false);
+
+const entries = ref<LocationDTO[]>([]);
+
+function fetchTableData ({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
+  loading.value = true;
+
+  console.log('page', page);
+  console.log('itemsPerPage', itemsPerPage);
+
+  if (sortBy.length) {
+    console.log({ key: sortBy[0].key, order: sortBy[0].order });
+  }
+
+  getLocations().then(value => {
+    entries.value = value;
+  });
+
+  loading.value = false;
+}
 </script>

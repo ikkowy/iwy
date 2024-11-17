@@ -1,0 +1,7 @@
+services:
+
+  nginx:
+    container_name: iwy-nginx
+    build: ./docker/nginx
+    ports:
+      - "80:80"
