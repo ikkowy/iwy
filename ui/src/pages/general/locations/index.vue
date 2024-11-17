@@ -42,7 +42,13 @@
     </div>
 
     <div class="pa-2">
-      <v-data-table hover :items="entries" :loading="loading" @update:options="fetchTableData" />
+      <v-data-table
+        :headers="headers"
+        hover
+        :items="entries"
+        :loading="loading"
+        @update:options="fetchTableData"
+      />
     </div>
   </div>
 
@@ -72,7 +78,20 @@ const loading = ref(false);
 
 const entries = ref<LocationDTO[]>([]);
 
-function fetchTableData ({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
+const headers = [
+  {
+    key: 'name',
+    sortable: true,
+    title: 'Name'
+  },
+  {
+    key: 'description',
+    sortable: true,
+    title: 'Description'
+  }
+];
+
+function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
   loading.value = true;
 
   console.log('page', page);

@@ -4,8 +4,21 @@
       <v-card>
         <v-card-title>Add new location</v-card-title>
         <v-card-item>
-          <v-text-field v-model="form.name" label="Name" />
-          <v-textarea v-model="form.description" auto-grow label="Description" rows="1" />
+          <v-text-field
+            v-model="form.name"
+            class="mt-2"
+            density="comfortable"
+            label="Name"
+            variant="outlined"
+          />
+          <v-textarea
+            v-model="form.description"
+            auto-grow
+            density="comfortable"
+            label="Description"
+            rows="1"
+            variant="outlined"
+          />
         </v-card-item>
         <v-card-actions>
           <v-btn class="text-none" @click="save">Save</v-btn>
@@ -35,17 +48,17 @@ const form: UnwrapNestedRefs<Form> = reactive(new Form());
 
 const showNotification = ref<boolean>(false);
 
-function reset () {
+function reset() {
   Object.assign(form, new Form());
 }
 
-function save () {
+function save() {
   createLocation(form.name, form.description);
   showNotification.value = true;
   close();
 }
 
-function close () {
+function close() {
   show.value = false;
   reset();
 }
