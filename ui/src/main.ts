@@ -1,20 +1,25 @@
-/**
- * main.ts
- *
- * Bootstraps Vuetify and other plugins then mounts the App`
- */
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
 
-// Plugins
-import { registerPlugins } from '@/plugins';
-
-// Components
 import App from './App.vue';
 
-// Composables
-import { createApp } from 'vue';
+import { registerPlugins } from '@/plugins';
+
+import de from './locales/de.json';
+import en from './locales/en.json';
 
 const app = createApp(App);
 
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    'de': de,
+    'en': en
+  }
+});
+
 registerPlugins(app);
+
+app.use(i18n);
 
 app.mount('#app');
