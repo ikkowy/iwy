@@ -122,16 +122,14 @@ const tableItemsLength = ref<number>(0);
 
 function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
   tableLoading.value = true;
-
-  if (sortBy.length) {
-    console.log({ key: sortBy[0].key, order: sortBy[0].order });
-  }
-
-  getLocations(page - 1, itemsPerPage).then(response => {
+  getLocations(
+    page - 1,
+    itemsPerPage,
+    sortBy.length ? { key: sortBy[0].key, order: sortBy[0].order } : undefined
+  ).then(response => {
     tableItems.value = response.content;
     tableItemsLength.value = response.totalElements;
   });
-
   tableLoading.value = false;
 }
 

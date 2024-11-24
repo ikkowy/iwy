@@ -5,14 +5,18 @@ import { PageResponse } from '@/types/PageResponse';
 
 const endpoint = 'http://localhost/'; // TODO: No hardcoded endpoint.
 
-export async function getLocations(page: number, size: number): Promise<PageResponse<LocationDTO>> {
+export async function getLocations(
+  page: number,
+  size: number,
+  sort?: {key: string, order: string}
+): Promise<PageResponse<LocationDTO>> {
   const url = new URL('/api/locations', endpoint).href;
-  const response = await axios.get(url, {
-    params: {
-      page: page,
-      size: size
-    }
-  });
+  const params = {
+    page: page,
+    size: size,
+    sort: sort ? `${sort.key},${sort.order}` : undefined
+  };
+  const response = await axios.get(url, { params: params });
   if (response.status === 200) {
     return {
       content: response.data.content,

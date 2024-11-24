@@ -18,15 +18,15 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public Location getLocationByUuid(UUID uuid) {
-        return locationRepository.findByUuid(uuid);
-    }
-
     public Page<Location> getLocations(Pageable pageable) {
         return locationRepository.findAll(pageable);
     }
 
-    public Location create(LocationDTO locationDTO) {
+    public Location getLocationByUuid(UUID uuid) {
+        return locationRepository.findByUuid(uuid);
+    }
+
+    public Location createLocation(LocationDTO locationDTO) {
         Location location = new Location();
         location.setName(locationDTO.getName());
         location.setDescription(locationDTO.getDescription());

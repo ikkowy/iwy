@@ -35,7 +35,7 @@ public class LocationController {
 
     @PostMapping
     LocationDTO createLocation(@RequestBody LocationDTO locationDTO) {
-        return locationService.convertEntityToDTO(locationService.create(locationDTO));
+        return locationService.convertEntityToDTO(locationService.createLocation(locationDTO));
     }
 
 }
