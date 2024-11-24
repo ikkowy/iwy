@@ -13,8 +13,8 @@ const app = createApp(App);
 const i18n = createI18n({
   locale: 'en',
   messages: {
-    'de': de,
-    'en': en
+    de,
+    en
   }
 });
 

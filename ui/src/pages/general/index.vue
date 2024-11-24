@@ -1,6 +1,7 @@
 <template>
+  <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
+
   <div class="pa-3 d-flex flex-column ga-3">
-    <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
     <iwy-navigation :entries="navigationEntries" />
   </div>
 </template>

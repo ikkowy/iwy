@@ -12,11 +12,11 @@ export async function getLocations(
 ): Promise<PageResponse<LocationDTO>> {
   const url = new URL('/api/locations', endpoint).href;
   const params = {
-    page: page,
-    size: size,
+    page,
+    size,
     sort: sort ? `${sort.key},${sort.order}` : undefined
   };
-  const response = await axios.get(url, { params: params });
+  const response = await axios.get(url, { params });
   if (response.status === 200) {
     return {
       content: response.data.content,

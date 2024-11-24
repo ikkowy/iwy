@@ -1,12 +1,14 @@
 <template>
+  <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
+
   <div class="pa-3 d-flex flex-column ga-3">
     <div class="pa-1 d-flex flex-wrap ga-2">
       <v-btn
         v-for="(item, index) in buttons"
         :key="index"
         class="text-none"
-        variant="flat"
         :prepend-icon="item.icon"
+        variant="flat"
         @click="item.click"
       >
         {{ item.label }}
@@ -16,15 +18,16 @@
       </v-btn>
     </div>
 
-    <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
-
     <div class="pa-2">
       <v-data-table-server
-        hover
+        v-model="selectedItems"
         :headers="tableHeaders"
+        hover
+        item-value="uuid"
         :items="tableItems"
         :items-length="tableItemsLength"
         :loading="tableLoading"
+        show-select
         @update:options="fetchTableData"
       />
     </div>
@@ -59,13 +62,13 @@ const buttons = [
     icon: 'mdi-refresh',
     label: i18n.t('global.label.refresh'),
     tooltip: i18n.t('global.tooltip.refreshTable'),
-    click: refresh,
+    click: refresh
   },
   {
     icon: 'mdi-plus',
     label: i18n.t('global.label.add'),
     tooltip: i18n.t('global.tooltip.addNewRecord'),
-    click: () => showLocationEditDialog.value = true,
+    click: () => showLocationEditDialog.value = true
   },
   {
     icon: 'mdi-delete-outline',
@@ -107,7 +110,7 @@ const tableHeaders = [
   {
     key: 'name',
     sortable: true,
-    title: 'Name',
+    title: 'Name'
   },
   {
     key: 'description',
@@ -116,9 +119,11 @@ const tableHeaders = [
   }
 ];
 
-const tableItems = ref<LocationDTO[]>([])
+const tableItems = ref<LocationDTO[]>([]);
 
 const tableItemsLength = ref<number>(0);
+
+const selectedItems = ref([]);
 
 function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
   tableLoading.value = true;
