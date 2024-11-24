@@ -1,12 +1,13 @@
 package net.ikkowy.iwy.service;
 
 import net.ikkowy.iwy.dto.LocationDTO;
-import net.ikkowy.iwy.filter.LocationFilter;
 import net.ikkowy.iwy.model.Location;
 import net.ikkowy.iwy.repository.LocationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LocationService {
@@ -17,11 +18,12 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<Location> filter(LocationFilter filter) {
-        if (filter.getUuid() != null) {
-            return List.of(locationRepository.findByUuid(filter.getUuid()));
-        }
-        return locationRepository.findAll();
+    public Location getLocationByUuid(UUID uuid) {
+        return locationRepository.findByUuid(uuid);
+    }
+
+    public Page<Location> getLocations(Pageable pageable) {
+        return locationRepository.findAll(pageable);
     }
 
     public Location create(LocationDTO locationDTO) {

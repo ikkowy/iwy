@@ -1,4 +1,4 @@
-import { BaseDTO } from '@/dto/BaseDTO';
+import { BaseDTO } from '@/types/dto/BaseDTO';
 
 export interface LocationDTO extends BaseDTO {
   name: string;

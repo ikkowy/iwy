@@ -23,7 +23,7 @@
         hover
         :headers="tableHeaders"
         :items="tableItems"
-        :items-length="100"
+        :items-length="tableItemsLength"
         :loading="tableLoading"
         @update:options="fetchTableData"
       />
@@ -37,7 +37,7 @@
 import { useI18n } from 'vue-i18n';
 
 import { getLocations } from '@/utils/api/LocationApiUtils';
-import { LocationDTO } from '@/dto/LocationDTO';
+import { LocationDTO } from '@/types/dto/LocationDTO';
 
 const i18n = useI18n();
 
@@ -116,20 +116,20 @@ const tableHeaders = [
   }
 ];
 
-const tableItems = ref<LocationDTO[]>([]);
+const tableItems = ref<LocationDTO[]>([])
+
+const tableItemsLength = ref<number>(0);
 
 function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
   tableLoading.value = true;
-
-  console.log('page', page);
-  console.log('itemsPerPage', itemsPerPage);
 
   if (sortBy.length) {
     console.log({ key: sortBy[0].key, order: sortBy[0].order });
   }
 
-  getLocations().then(value => {
-    tableItems.value = value;
+  getLocations(page - 1, itemsPerPage).then(response => {
+    tableItems.value = response.content;
+    tableItemsLength.value = response.totalElements;
   });
 
   tableLoading.value = false;

@@ -1,17 +1,16 @@
 package net.ikkowy.iwy.controller;
 
 import net.ikkowy.iwy.dto.LocationDTO;
-import net.ikkowy.iwy.filter.LocationFilter;
 import net.ikkowy.iwy.service.LocationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -25,15 +24,13 @@ public class LocationController {
     }
 
     @GetMapping
-    List<LocationDTO> getLocations(@RequestParam Optional<UUID> uuid,
-                                   @RequestParam Optional<String> sortBy,
-                                   @RequestParam Optional<Boolean> descending) {
-        LocationFilter locationFilter = new LocationFilter();
-        locationFilter.setUuid(uuid.orElse(null));
-        locationFilter.setSortBy(sortBy.orElse(null));
-        locationFilter.setDescending(descending.orElse(false));
-        return locationService.filter(locationFilter).stream()
-                .map(locationService::convertEntityToDTO).toList();
+    Page<LocationDTO> getLocations(Pageable pageable) {
+        return locationService.getLocations(pageable).map(locationService::convertEntityToDTO);
+    }
+
+    @GetMapping("/{uuid}")
+    LocationDTO getLocationByUuid(@PathVariable UUID uuid) {
+        return locationService.convertEntityToDTO(locationService.getLocationByUuid(uuid));
     }
 
     @PostMapping
