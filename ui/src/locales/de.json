@@ -4,5 +4,13 @@
   "global.label.export": "Export",
   "global.label.filter": "Filter",
   "global.label.import": "Import",
-  "global.label.remove": "Entfernen"
+  "global.label.refresh": "Aktualisieren",
+  "global.label.remove": "Entfernen",
+  "global.tooltip.addNewRecord": "Neuen Datensatz hinzufügen",
+  "global.tooltip.configureTableColumns": "Tabellenspalten einstellen",
+  "global.tooltip.configureTableFilter": "Tabellenfilter einstellen",
+  "global.tooltip.exportData": "Datensätze exportieren",
+  "global.tooltip.importData": "Datensätze importieren",
+  "global.tooltip.refreshTable": "Tabelle aktualisieren",
+  "global.tooltip.removeSelectedRecords": "Ausgewählte Datensätze entfernen"
 }

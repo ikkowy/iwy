@@ -1,12 +1,12 @@
 package net.ikkowy.iwy.service;
 
 import net.ikkowy.iwy.dto.LocationDTO;
+import net.ikkowy.iwy.filter.LocationFilter;
 import net.ikkowy.iwy.model.Location;
 import net.ikkowy.iwy.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class LocationService {
@@ -17,21 +17,18 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<LocationDTO> getLocations(UUID uuid) {
-        List<Location> result;
-        if (uuid != null) {
-            result = List.of(locationRepository.findByUuid(uuid));
-        } else {
-            result = locationRepository.findAll();
+    public List<Location> filter(LocationFilter filter) {
+        if (filter.getUuid() != null) {
+            return List.of(locationRepository.findByUuid(filter.getUuid()));
         }
-        return result.stream().map(this::convertEntityToDTO).toList();
+        return locationRepository.findAll();
     }
 
-    public LocationDTO createLocation(LocationDTO locationDTO) {
+    public Location create(LocationDTO locationDTO) {
         Location location = new Location();
         location.setName(locationDTO.getName());
         location.setDescription(locationDTO.getDescription());
-        return convertEntityToDTO(locationRepository.save(location));
+        return locationRepository.save(location);
     }
 
     public LocationDTO convertEntityToDTO(Location location) {

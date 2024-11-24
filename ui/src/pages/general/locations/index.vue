@@ -1,52 +1,30 @@
 <template>
   <div class="pa-3 d-flex flex-column ga-3">
-    <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
-
     <div class="pa-1 d-flex flex-wrap ga-2">
-      <v-btn class="text-none" prepend-icon="mdi-plus" variant="flat" @click="showLocationEditDialog = true">
-        {{ i18n.t('global.label.add') }}
+      <v-btn
+        v-for="(item, index) in buttons"
+        :key="index"
+        class="text-none"
+        variant="flat"
+        :prepend-icon="item.icon"
+        @click="item.click"
+      >
+        {{ item.label }}
         <v-tooltip activator="parent" location="bottom">
-          Add new location
-        </v-tooltip>
-      </v-btn>
-      <v-btn class="text-none" prepend-icon="mdi-delete-outline" variant="flat">
-        {{ i18n.t('global.label.remove') }}
-        <v-tooltip activator="parent" location="bottom">
-          Remove selected locations
-        </v-tooltip>
-      </v-btn>
-      <v-btn class="text-none" prepend-icon="mdi-filter-outline" variant="flat">
-        {{ i18n.t('global.label.filter') }}
-        <v-tooltip activator="parent" location="bottom">
-          Configure table filter
-        </v-tooltip>
-      </v-btn>
-      <v-btn class="text-none" prepend-icon="mdi-table-cog" variant="flat">
-        {{ i18n.t('global.label.columns') }}
-        <v-tooltip activator="parent" location="bottom">
-          Configure table columns
-        </v-tooltip>
-      </v-btn>
-      <v-btn class="text-none" prepend-icon="mdi-database-import-outline" variant="flat">
-        {{ i18n.t('global.label.import') }}
-        <v-tooltip activator="parent" location="bottom">
-          Import locations from a file in CSV, XML, or JSON formats
-        </v-tooltip>
-      </v-btn>
-      <v-btn class="text-none" prepend-icon="mdi-database-export-outline" variant="flat">
-        {{ i18n.t('global.label.export') }}
-        <v-tooltip activator="parent" location="bottom">
-          Export locations to a file in CSV, XML, or JSON formats
+          {{ item.tooltip }}
         </v-tooltip>
       </v-btn>
     </div>
 
+    <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
+
     <div class="pa-2">
-      <v-data-table
-        :headers="headers"
+      <v-data-table-server
         hover
-        :items="entries"
-        :loading="loading"
+        :headers="tableHeaders"
+        :items="tableItems"
+        :items-length="100"
+        :loading="tableLoading"
         @update:options="fetchTableData"
       />
     </div>
@@ -76,17 +54,60 @@ const breadcrumbs = [
   }
 ];
 
+const buttons = [
+  {
+    icon: 'mdi-refresh',
+    label: i18n.t('global.label.refresh'),
+    tooltip: i18n.t('global.tooltip.refreshTable'),
+    click: refresh,
+  },
+  {
+    icon: 'mdi-plus',
+    label: i18n.t('global.label.add'),
+    tooltip: i18n.t('global.tooltip.addNewRecord'),
+    click: () => showLocationEditDialog.value = true,
+  },
+  {
+    icon: 'mdi-delete-outline',
+    label: i18n.t('global.label.remove'),
+    tooltip: i18n.t('global.tooltip.removeSelectedRecords'),
+    click: () => {}
+  },
+  {
+    icon: 'mdi-filter-outline',
+    label: i18n.t('global.label.filter'),
+    tooltip: i18n.t('global.tooltip.configureTableFilter'),
+    click: () => {}
+  },
+  {
+    icon: 'mdi-table-cog',
+    label: i18n.t('global.label.columns'),
+    tooltip: i18n.t('global.tooltip.configureTableColumns'),
+    click: () => {}
+  },
+  {
+    icon: 'mdi-database-import-outline',
+    label: i18n.t('global.label.import'),
+    tooltip: i18n.t('global.tooltip.importData'),
+    click: () => {}
+  },
+  {
+    icon: 'mdi-database-export-outline',
+    label: i18n.t('global.label.export'),
+    tooltip: i18n.t('global.tooltip.exportData'),
+    click: () => {}
+  }
+];
+
 const showLocationEditDialog = ref(false);
 
-const loading = ref(false);
+const tableLoading = ref(false);
 
-const entries = ref<LocationDTO[]>([]);
-
-const headers = [
+const tableHeaders = [
   {
     key: 'name',
     sortable: true,
-    title: 'Name'
+    title: 'Name',
   },
   {
     key: 'description',
@@ -95,8 +116,10 @@ const headers = [
   }
 ];
 
+const tableItems = ref<LocationDTO[]>([]);
+
 function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: any }) {
-  loading.value = true;
+  tableLoading.value = true;
 
   console.log('page', page);
   console.log('itemsPerPage', itemsPerPage);
@@ -106,9 +129,13 @@ function fetchTableData({ page, itemsPerPage, sortBy }: { page: number, itemsPer
   }
 
   getLocations().then(value => {
-    entries.value = value;
+    tableItems.value = value;
   });
 
-  loading.value = false;
+  tableLoading.value = false;
+}
+
+function refresh() {
+  // TODO: Implement
 }
 </script>
