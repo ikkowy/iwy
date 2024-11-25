@@ -1,13 +1,24 @@
 <template>
-  <iwy-breadcrumbs :breadcrumbs="breadcrumbs" />
+  <navigation-bar :breadcrumbs="breadcrumbs" />
 
   <div class="pa-3 d-flex flex-column ga-3">
-    <iwy-navigation :entries="navigationEntries" />
+    <navigation-menu :links="links" />
   </div>
 </template>
 
 <script setup lang="ts">
-const navigationEntries = [
+import NavigationBar from '@/components/NavigationBar.vue';
+import NavigationMenu from '@/components/NavigationMenu.vue';
+
+const breadcrumbs = [
+  {
+    title: 'General',
+    disabled: false,
+    href: '/general'
+  }
+];
+
+const links = [
   {
     title: 'Locations',
     icon: 'mdi-map-marker',
@@ -27,14 +38,6 @@ const navigationEntries = [
     title: 'Articles',
     icon: 'mdi-tag-multiple',
     href: '/general/articles'
-  }
-];
-
-const breadcrumbs = [
-  {
-    title: 'General',
-    disabled: false,
-    href: '/general'
   }
 ];
 </script>

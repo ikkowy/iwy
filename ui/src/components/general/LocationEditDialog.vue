@@ -34,17 +34,21 @@
 </template>
 
 <script setup lang="ts">
-import { UnwrapNestedRefs } from 'vue';
+import { reactive, ref } from 'vue';
 import { createLocation } from '@/utils/api/LocationApiUtils';
 
 const show = defineModel<boolean>('show');
+
+const emit = defineEmits<{
+  success: []
+}>();
 
 class Form {
   name: string = '';
   description: string = '';
 }
 
-const form: UnwrapNestedRefs<Form> = reactive(new Form());
+const form = reactive<Form>(new Form());
 
 const showNotification = ref<boolean>(false);
 
@@ -52,8 +56,9 @@ function reset() {
   Object.assign(form, new Form());
 }
 
-function save() {
-  createLocation(form.name, form.description);
+async function save() {
+  await createLocation(form.name, form.description);
+  emit('success');
   showNotification.value = true;
   close();
 }

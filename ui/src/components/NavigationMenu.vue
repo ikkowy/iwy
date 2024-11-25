@@ -2,7 +2,7 @@
   <v-card variant="text">
     <v-list>
       <v-list-item
-        v-for="entry in props.entries"
+        v-for="entry in props.links"
         :key="entry.title"
         class="py-5"
         :disabled="entry.disabled"
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-interface NavigationEntry {
+interface Link {
   disabled?: boolean,
   href: string
   title: string,
@@ -27,7 +27,7 @@ interface NavigationEntry {
 }
 
 interface Props {
-  entries: NavigationEntry[];
+  links: Link[];
 }
 
 const props = defineProps<Props>();
