@@ -27,18 +27,32 @@ export async function getLocations(
   }
 }
 
-export async function createLocation(name: string, description: string): Promise<LocationDTO> {
-  const url = new URL('/api/locations', endpoint).href;
-  const response = await axios.post<LocationDTO>(url, {
-    name,
-    description
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  if (response.status !== 200) {
+export async function getLocationByUuid(uuid: string): Promise<LocationDTO> {
+  const url = new URL(`/api/locations/${uuid}`, endpoint).href;
+  const response = await axios.get<LocationDTO>(url);
+  if (response.status === 200) {
+    return response.data;
+  } else {
     throw new Error(); // TODO: Improve error handling.
   }
-  return response.data;
+}
+
+export async function createLocation(name: string, description: string): Promise<LocationDTO> {
+  const url = new URL('/api/locations', endpoint).href;
+  const response = await axios.post<LocationDTO>(url, { name, description });
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    throw new Error(); // TODO: Improve error handling.
+  }
+}
+
+export async function updateLocation(uuid: string, name: string, description: string): Promise<LocationDTO> {
+  const url = new URL('/api/locations', endpoint).href;
+  const response = await axios.put<LocationDTO>(url, { uuid, name, description });
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    throw new Error(); // TODO: Improve error handling.
+  }
 }

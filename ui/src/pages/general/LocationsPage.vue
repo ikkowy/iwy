@@ -15,7 +15,7 @@
         icon="mdi-plus"
         :label="i18n.t('global.label.add')"
         :tooltip="i18n.t('global.tooltip.addNewRecord')"
-        @click="showLocationEditDialog = true"
+        @click="locationEditDialog?.open()"
       />
       <!-- Button: Remove -->
       <table-button
@@ -66,18 +66,19 @@
         :loading="tableLoading"
         show-select
         @update:options="updateOptions"
+        @click:row="handleTableRowClick"
       />
     </div>
   </div>
 
   <location-edit-dialog
-    v-model:show="showLocationEditDialog"
+    ref="locationEditDialog"
     @success="refreshTable"
   />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import TableButton from '@/components/TableButton.vue';
@@ -102,7 +103,7 @@ const breadcrumbs = [
   }
 ];
 
-const showLocationEditDialog = ref(false);
+const locationEditDialog = useTemplateRef('locationEditDialog');
 
 const tableLoading = ref(false);
 
@@ -146,6 +147,13 @@ function refreshTable() {
       tableItemsLength.value = response.totalElements;
     });
     tableLoading.value = false;
+  }
+}
+
+function handleTableRowClick(_: PointerEvent, row: any): void {
+  const uuid = row.item.uuid;
+  if (typeof uuid === 'string') {
+    locationEditDialog.value?.open(uuid);
   }
 }
 </script>

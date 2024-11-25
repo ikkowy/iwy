@@ -1,10 +1,8 @@
 package net.ikkowy.iwy.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
@@ -29,7 +27,7 @@ public class BaseEntity {
         modifiedAt = now;
     }
 
-    void updateModifiedAt() {
+    public void updateModifiedAt() {
         modifiedAt = new Date();
     }
 

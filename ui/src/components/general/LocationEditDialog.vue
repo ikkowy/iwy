@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="show" max-width="500" persistent>
+  <v-dialog v-model="showDialog" max-width="500" persistent>
     <template #default>
       <v-card>
-        <v-card-title>Add new location</v-card-title>
+        <v-card-title>{{ caption }}</v-card-title>
         <v-card-item>
           <v-text-field
             v-model="form.name"
@@ -22,7 +22,7 @@
         </v-card-item>
         <v-card-actions>
           <v-btn class="text-none" @click="save">Save</v-btn>
-          <v-btn class="text-none" @click="close">Cancel</v-btn>
+          <v-btn class="text-none" @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -34,14 +34,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { createLocation } from '@/utils/api/LocationApiUtils';
-
-const show = defineModel<boolean>('show');
+import { computed, reactive, ref } from 'vue';
+import { createLocation, getLocationByUuid, updateLocation } from '@/utils/api/LocationApiUtils';
 
 const emit = defineEmits<{
   success: []
 }>();
+
+defineExpose({ open });
 
 class Form {
   name: string = '';
@@ -50,21 +50,45 @@ class Form {
 
 const form = reactive<Form>(new Form());
 
+const showDialog = ref<boolean>(false);
+
 const showNotification = ref<boolean>(false);
+
+const locationUuid = ref<string | null>(null);
+
+// TODO: Translate texts!
+const caption = computed(() =>
+  locationUuid.value === null ? 'Add new location' : 'Edit location');
+
+async function open(uuid?: string) {
+  if (uuid) {
+    const locationDTO = await getLocationByUuid(uuid);
+    form.name = locationDTO.name;
+    form.description = locationDTO.description;
+    locationUuid.value = uuid;
+  }
+  showDialog.value = true;
+}
 
 function reset() {
   Object.assign(form, new Form());
+  locationUuid.value = null;
 }
 
 async function save() {
-  await createLocation(form.name, form.description);
+  if (locationUuid.value) {
+    await updateLocation(locationUuid.value, form.name, form.description);
+  } else {
+    await createLocation(form.name, form.description);
+  }
   emit('success');
   showNotification.value = true;
-  close();
+  closeDialog();
 }
 
-function close() {
-  show.value = false;
+async function closeDialog() {
+  showDialog.value = false;
+  await new Promise(resolve => setTimeout(() => resolve, 500));
   reset();
 }
 </script>

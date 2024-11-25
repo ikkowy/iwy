@@ -1,6 +1,5 @@
 package net.ikkowy.iwy.service;
 
-import net.ikkowy.iwy.dto.LocationDTO;
 import net.ikkowy.iwy.model.Location;
 import net.ikkowy.iwy.repository.LocationRepository;
 import org.springframework.data.domain.Page;
@@ -26,19 +25,28 @@ public class LocationService {
         return locationRepository.findByUuid(uuid);
     }
 
-    public Location createLocation(LocationDTO locationDTO) {
+    public Location createLocation(String name, String description) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Argument 'name' must not be null or blank.");
+        }
         Location location = new Location();
-        location.setName(locationDTO.getName());
-        location.setDescription(locationDTO.getDescription());
+        location.setName(name);
+        location.setDescription(description);
         return locationRepository.save(location);
     }
 
-    public LocationDTO convertEntityToDTO(Location location) {
-        LocationDTO locationDTO = new LocationDTO();
-        locationDTO.setUuid(location.getUuid());
-        locationDTO.setName(location.getName());
-        locationDTO.setDescription(location.getDescription());
-        return locationDTO;
+    public Location updateLocation(UUID uuid, String name, String description) {
+        Location location = locationRepository.findByUuid(uuid);
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Location name must not be null or blank.");
+        }
+        if (location == null) {
+            throw new RuntimeException(String.format("Cannot find a location with UUID '%s'.", uuid));
+        }
+        location.setName(name);
+        location.setDescription(description);
+        location.updateModifiedAt();
+        return locationRepository.save(location);
     }
 
 }
