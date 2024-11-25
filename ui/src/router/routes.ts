@@ -14,6 +14,10 @@ export default [
       {
         path: '/general/locations',
         component: () => import('@/pages/general/LocationsPage.vue')
+      },
+      {
+        path: '/login',
+        component: () => import('@/pages/LoginPage.vue')
       }
     ]
   }

@@ -4,8 +4,7 @@
       class="text-caption text-disabled"
       style="position: absolute; right: 16px"
     >
-      IWY / &#169; 2024-{{ (new Date()).getFullYear() }} Vincent Westenberg
-      /
+      IWY / &#169; 2024-{{ (new Date()).getFullYear() }} Vincent Westenberg /
       <a
         class="text-decoration-none on-surface"
         href="https://opensource.org/license/MIT"
