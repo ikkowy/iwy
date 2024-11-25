@@ -15,7 +15,7 @@
         icon="mdi-plus"
         :label="i18n.t('global.label.add')"
         :tooltip="i18n.t('global.tooltip.addNewRecord')"
-        @click="locationEditDialog?.open()"
+        @click="refLocationEditDialog?.open()"
       />
       <!-- Button: Remove -->
       <table-button
@@ -65,14 +65,14 @@
         :items-length="tableItemsLength"
         :loading="tableLoading"
         show-select
-        @update:options="updateOptions"
         @click:row="handleTableRowClick"
+        @update:options="updateOptions"
       />
     </div>
   </div>
 
   <location-edit-dialog
-    ref="locationEditDialog"
+    ref="location-edit-dialog"
     @success="refreshTable"
   />
 </template>
@@ -81,9 +81,9 @@
 import { ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import NavigationBar from '@/components/NavigationBar.vue';
 import TableButton from '@/components/TableButton.vue';
 import LocationEditDialog from '@/components/general/LocationEditDialog.vue';
-import NavigationBar from '@/components/NavigationBar.vue';
 
 import { LocationDTO } from '@/types/dto/LocationDTO';
 import { getLocations } from '@/utils/api/LocationApiUtils';
@@ -103,7 +103,7 @@ const breadcrumbs = [
   }
 ];
 
-const locationEditDialog = useTemplateRef('locationEditDialog');
+const refLocationEditDialog = useTemplateRef('location-edit-dialog');
 
 const tableLoading = ref(false);
 
@@ -153,7 +153,7 @@ function refreshTable() {
 function handleTableRowClick(_: PointerEvent, row: any): void {
   const uuid = row.item.uuid;
   if (typeof uuid === 'string') {
-    locationEditDialog.value?.open(uuid);
+    refLocationEditDialog.value?.open(uuid);
   }
 }
 </script>

@@ -8,7 +8,7 @@
         icon="mdi-home"
         variant="flat"
       />
-      <v-icon icon="mdi-chevron-right" />
+      <v-icon v-if="props.breadcrumbs?.length > 0" icon="mdi-chevron-right" />
     </template>
     <template #divider>
       <v-icon icon="mdi-chevron-right" />
