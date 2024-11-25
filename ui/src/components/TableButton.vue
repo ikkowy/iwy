@@ -1,10 +1,10 @@
 <template>
   <v-btn
     class="text-none"
+    :disabled="props.disabled"
     :prepend-icon="props.icon"
     variant="text"
     @click="emit('click')"
-    :disabled="props.disabled"
   >
     {{ props.label }}
     <v-tooltip activator="parent" location="bottom">
@@ -30,5 +30,5 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   click: []
-}>()
+}>();
 </script>

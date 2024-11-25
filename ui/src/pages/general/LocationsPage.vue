@@ -1,5 +1,5 @@
 <template>
-  <navigation-bar :breadcrumbs="breadcrumbs"/>
+  <navigation-bar :breadcrumbs="breadcrumbs" />
 
   <div class="pa-3 d-flex flex-column">
     <div class="pa-1 d-flex flex-wrap ga-2">
@@ -19,10 +19,10 @@
       />
       <!-- Button: Remove -->
       <table-button
+        :disabled="selectedItems.length === 0"
         icon="mdi-delete-outline"
         :label="i18n.t('global.label.remove')"
         :tooltip="i18n.t('global.tooltip.removeSelectedRecords')"
-        :disabled="selectedItems.length === 0"
       />
       <!-- Button: Filter -->
       <table-button
@@ -56,16 +56,16 @@
 
     <div class="pa-2">
       <v-data-table-server
-        hover
-        show-select
         v-model="selectedItems"
-        item-value="uuid"
+        density="comfortable"
         :headers="tableHeaders"
+        hover
+        item-value="uuid"
         :items="tableItems"
         :items-length="tableItemsLength"
         :loading="tableLoading"
+        show-select
         @update:options="updateOptions"
-        density="comfortable"
       />
     </div>
   </div>
